@@ -6,53 +6,31 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" href="icon-192.png">
-<meta name="theme-color" content="#0f6e66">
+<meta name="theme-color" content="#0a0606">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="やること">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>やることリスト</title>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>任務指令</title>
 <style>
+/* layout: command-console look. near-black with red tint, sharp edges, orange accent, hazard-stripe rule under the title */
 :root{
-  /* layout: one narrow column. summary, add form, category chips, task list, finished tasks */
-  --bg:#f2f4f3;
-  --surface:#ffffff;
-  --ink:#17201e;
-  --muted:#65716e;
-  --line:#dce2e0;
-  --accent:#0f6e66;
+  --bg:#000000;
+  --surface:#151212;
+  --surface2:#1b1616;
+  --ink:#f3e9e1;
+  --muted:#a58f88;
+  --line:#35282a;
+  --accent:#c7000a;
+  --accent-text:#ff3d45;
   --accent-ink:#ffffff;
-  --soft:#e3eeec;
-  --warn:#b3261e;
-  --warn-soft:#fbe9e7;
+  --soft:#2e1013;
+  --warn:#ffb020;
+  --warn-soft:#3a280a;
+  --ok:#3ddc84;
   --font:"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",system-ui,sans-serif;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#121615;
-    --surface:#1b2120;
-    --ink:#e8eeec;
-    --muted:#92a09c;
-    --line:#2c3533;
-    --accent:#4cc2b6;
-    --accent-ink:#0c1514;
-    --soft:#223230;
-    --warn:#ff8a80;
-    --warn-soft:#3a2321;
-    color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#121615;
-  --surface:#1b2120;
-  --ink:#e8eeec;
-  --muted:#92a09c;
-  --line:#2c3533;
-  --accent:#4cc2b6;
-  --accent-ink:#0c1514;
-  --soft:#223230;
-  --warn:#ff8a80;
-  --warn-soft:#3a2321;
+  --serif:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","Noto Serif JP",serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -95,7 +73,7 @@ form.add .title{grid-column:1 / -1}
   border-radius:10px;
 }
 .field::placeholder{color:var(--muted)}
-.field:focus{border-color:var(--accent)}
+.field:focus{border-color:var(--accent-text)}
 .btn{
   min-height:44px;
   padding:8px 16px;
@@ -120,7 +98,7 @@ form.add .btn{grid-column:1 / -1}
   font-size:14px;
 }
 .chip .n{color:var(--muted);font-variant-numeric:tabular-nums;font-size:13px}
-.chip.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+.chip.on{background:var(--accent);border-color:var(--accent-text);color:var(--accent-ink);font-weight:700}
 .chip.on .n{color:inherit;opacity:.8}
 .chip.ghost{background:transparent;border-style:dashed;color:var(--muted)}
 .dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none}
@@ -139,7 +117,7 @@ form.catform .field{flex:1}
 .todayhead{display:flex;align-items:flex-end;justify-content:space-between;gap:8px;padding:0 4px}
 .todayhead h2{margin:0;font-size:19px;font-weight:700}
 .tdate{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
-.prog{font-size:14px;color:var(--accent);font-weight:700;font-variant-numeric:tabular-nums}
+.prog{font-size:14px;color:var(--accent-text);font-weight:700;font-variant-numeric:tabular-nums}
 .bar{height:6px;border-radius:3px;background:var(--soft);margin:0 4px;overflow:hidden}
 .bar i{display:block;height:100%;background:var(--accent);border-radius:3px}
 .today ul.list{border:0;border-radius:0;background:transparent}
@@ -160,15 +138,15 @@ form.add .note{grid-column:1 / -1}
 .tfield span{flex:none}
 .tfield .field{flex:1;width:auto}
 .rep{grid-column:1 / -1;display:flex;align-items:center;gap:10px;min-height:44px;font-size:15px}
-.rep input{width:22px;height:22px;accent-color:var(--accent);margin:0}
+.rep input{width:22px;height:22px;accent-color:var(--accent-text);margin:0}
 .days{grid-column:1 / -1;display:flex;gap:6px}
 .days[hidden]{display:none}
 .wd{position:relative;flex:1}
 .wd input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
 .wd span{display:grid;place-items:center;min-height:42px;border:1px solid var(--line);border-radius:10px;background:var(--bg);font-size:14px}
-.wd input:checked + span{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+.wd input:checked + span{background:var(--accent);border-color:var(--accent-text);color:var(--accent-ink);font-weight:700}
 .wd input:focus-visible + span{outline:2px solid var(--accent);outline-offset:2px}
-.rep-tag{color:var(--accent);font-weight:700}
+.rep-tag{color:var(--accent-text);font-weight:700}
 .recsec{display:flex;flex-direction:column;gap:8px}
 .recsec h2{margin:0;font-size:15px;color:var(--muted);font-weight:700}
 .recsec .hint{margin:0;font-size:14px;color:var(--muted)}
@@ -183,11 +161,11 @@ form.add .note{grid-column:1 / -1}
   background:transparent;border:1px solid var(--line);border-radius:10px;color:var(--ink)
 }
 .navbtn{font-size:22px;line-height:1}
-.todaybtn{font-size:14px;color:var(--accent);font-weight:700}
+.todaybtn{font-size:14px;color:var(--accent-text);font-weight:700}
 .calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
 .calgrid.wk span{text-align:center;font-size:12px;color:var(--muted);padding:2px 0}
 .calgrid.wk .sun{color:var(--warn)}
-.calgrid.wk .sat{color:var(--accent)}
+.calgrid.wk .sat{color:var(--accent-text)}
 .day{
   min-height:54px;padding:6px 2px 4px;
   display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:4px;
@@ -199,9 +177,9 @@ form.add .note{grid-column:1 / -1}
 .day .dots small{font-size:10px;color:var(--muted);line-height:1}
 .day.has{background:var(--soft)}
 .day.late .num{color:var(--warn);font-weight:700}
-.day.today{border-color:var(--accent)}
-.day.today .num{font-weight:700;color:var(--accent)}
-.day.sel{background:var(--accent);border-color:var(--accent)}
+.day.today{border-color:var(--accent-text)}
+.day.today .num{font-weight:700;color:var(--accent-text)}
+.day.sel{background:var(--accent);border-color:var(--accent-text)}
 .day.sel .num{color:var(--accent-ink);font-weight:700}
 .day.sel .dots small{color:var(--accent-ink)}
 .day.sel .dot{box-shadow:0 0 0 1.5px var(--accent-ink)}
@@ -227,7 +205,7 @@ ul.list{list-style:none;margin:0;padding:0;background:var(--surface);border:1px 
   padding:0;
 }
 .check svg{width:16px;height:16px;stroke:var(--accent-ink);stroke-width:3;fill:none;opacity:0}
-.task.done .check{background:var(--accent);border-color:var(--accent)}
+.task.done .check{background:var(--accent);border-color:var(--accent-text)}
 .task.done .check svg{opacity:1}
 .body{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
 .ttl{overflow-wrap:anywhere}
@@ -236,7 +214,7 @@ ul.list{list-style:none;margin:0;padding:0;background:var(--surface);border:1px 
 .pill{display:inline-flex;align-items:center;gap:5px}
 .due{font-variant-numeric:tabular-nums}
 .due.late{color:var(--warn);font-weight:700}
-.due.soon{color:var(--accent);font-weight:700}
+.due.soon{color:var(--accent-text);font-weight:700}
 .del{
   flex:none;width:40px;height:40px;border:0;background:transparent;color:var(--muted);font-size:22px;line-height:1;border-radius:10px
 }
@@ -268,14 +246,118 @@ details.finished ul.list{border:0;border-top:1px solid var(--line);border-radius
 }
 .toast.show{opacity:1}
 @media (prefers-reduced-motion: reduce){.toast{transition:none}}
+
+/* ---- red / black console theme ---- */
+body{
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(900px 420px at 50% -140px, rgba(255,40,50,.07), transparent 70%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.02) 0 1px, transparent 1px 3px),
+    url("data:image/svg+xml,%3Csvg width='28' height='49' viewBox='0 0 28 49' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23c7000a' fill-opacity='0.02' fill-rule='nonzero'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+header{position:relative}
+header::after{
+  content:"";display:block;height:7px;margin-top:12px;
+  background:repeating-linear-gradient(-45deg,#f3f3f3 0 10px,#000 10px 20px)
+}
+h1{font-family:var(--serif);font-weight:800;font-size:30px;letter-spacing:.14em;text-shadow:0 0 18px rgba(255,50,60,.4)}
+h1::before{
+  content:"MISSION CONTROL SYSTEM";display:block;margin-bottom:4px;
+  font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.32em;color:var(--accent-text);text-shadow:none
+}
+.summary{font-family:var(--mono);letter-spacing:.06em}
+.summary .late{border:1px solid var(--warn);padding:0 6px;background:rgba(255,176,32,.14)}
+
+.today,.cal,form.add,ul.list,details.finished{
+  border-radius:2px;
+  border:1px solid var(--line);
+  border-left:4px solid var(--accent);
+  background:var(--surface);
+  box-shadow:none;
+}
+.today{
+  border-color:rgba(199,0,10,.55);border-left-width:6px;
+  box-shadow:0 0 14px rgba(255,40,50,.10)
+}
+.today ul.list{border:0;box-shadow:none;background:transparent}
+details.finished ul.list{border:0;border-top:1px solid var(--line);box-shadow:none}
+
+.todayhead h2,.recsec h2,.sheet h2{font-family:var(--serif);letter-spacing:.12em}
+.todayhead h2::before,.recsec h2::before{
+  content:"";display:inline-block;width:9px;height:9px;margin-right:9px;background:var(--accent);
+  transform:rotate(45deg) translateY(-1px)
+}
+.recsec h2{color:var(--accent-text)}
+.tdate,.prog{font-family:var(--mono);letter-spacing:.06em}
+
+.bar{height:8px;border-radius:0;background:#2a2022}
+.bar i{border-radius:0;background:repeating-linear-gradient(90deg,var(--accent) 0 8px,transparent 8px 10px)}
+
+.btn{border-radius:2px;letter-spacing:.14em;font-weight:800;box-shadow:0 0 14px rgba(199,0,10,.35)}
+.ghostbtn,.editbtn,.navbtn,.todaybtn,.datebar button{border-radius:2px;border-color:var(--line);background:var(--surface2)}
+.todaybtn{color:var(--accent-text)}
+.field{border-radius:2px;background:#0d0808;border-color:var(--line);color:var(--ink)}
+.field:focus{border-color:var(--accent-text);box-shadow:0 0 0 1px var(--accent),0 0 14px rgba(199,0,10,.3)}
+.field::placeholder{color:#6f5b55}
+
+.chip{border-radius:2px;background:var(--surface2);border-color:var(--line);letter-spacing:.04em}
+.chip.on{box-shadow:0 0 12px rgba(199,0,10,.35)}
+.chip.ghost{background:transparent;border-style:dashed}
+.xbtn{border-radius:2px}
+.dot{border-radius:1px;transform:rotate(45deg)}
+
+.check{border-radius:2px;border-color:var(--muted)}
+.task.done .check{background:var(--ok);border-color:var(--ok)}
+.task.done .check svg{stroke:#04140a}
+.due{font-family:var(--mono)}
+.due.late{border:1px solid var(--warn);padding:0 6px;background:rgba(255,176,32,.12);animation:warnblink 1.8s ease-in-out infinite}
+@keyframes warnblink{0%,100%{opacity:1}50%{opacity:.6}}
+@media (prefers-reduced-motion: reduce){.due.late{animation:none}}
+.rep-tag{font-family:var(--mono)}
+
+.calttl{font-family:var(--serif);letter-spacing:.16em}
+.day{border-radius:2px;border-color:rgba(199,0,10,.12)}
+.day.today{border-color:var(--accent-text);box-shadow:0 0 10px rgba(199,0,10,.45)}
+.day.sel{box-shadow:0 0 14px rgba(199,0,10,.5)}
+.wd span{border-radius:2px}
+.legend{font-family:var(--mono)}
+
+.toast{border-radius:2px;border-left:4px solid var(--accent);font-family:var(--mono)}
+.overlay{background:rgba(0,0,0,.74)}
+.sheet{border-radius:2px 2px 0 0;border-top:3px solid var(--accent);border-left:0}
+
+/* ---- clock ---- */
+.clock{
+  display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px 12px 12px;
+  background:#0b0909;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:2px;
+  box-shadow:inset 0 0 0 3px #151212
+}
+.seg-row{--h:74px;display:flex;align-items:flex-end;justify-content:center;gap:5px;transform:skewX(-7deg)}
+.seg-row.sec{--h:36px}
+.seg-row.date{--h:20px;gap:3px}
+.seg-row svg{display:block;flex:none;height:var(--h);overflow:visible}
+.seg-row .on{fill:#f3e9e1;filter:drop-shadow(0 0 3px rgba(255,60,66,.55))}
+.seg-row .off{fill:rgba(255,255,255,.055)}
+.seg-row.sec .on{fill:#e5121c;filter:drop-shadow(0 0 3px rgba(199,0,10,.7))}
+.seg-row .lp{fill:#f3e9e1}
+.clk-main{display:flex;align-items:flex-end;gap:10px}
+.clk-sub{display:flex;align-items:center;justify-content:center;gap:14px;border-top:1px solid var(--line);padding-top:10px;width:100%}
+.clk-day{font-family:var(--serif);font-size:18px;font-weight:800;letter-spacing:.16em}
+.clk-day span{font-family:var(--mono);font-size:12px;font-weight:400;letter-spacing:.22em;color:var(--accent-text);margin-left:8px}
+@media (max-width:360px){.seg-row{--h:62px}.seg-row.sec{--h:30px}.seg-row.date{--h:20px}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <h1>やることリスト</h1>
+    <h1>任務指令</h1>
     <p class="summary" id="summary"></p>
   </header>
+
+  <section class="clock" id="clock" aria-label="現在時刻">
+    <div class="clk-main"><div class="seg-row" id="clkTime"></div><div class="seg-row sec" id="clkSec"></div></div>
+    <div class="clk-sub"><div class="seg-row date" id="clkDate"></div><div class="clk-day" id="clkDay"></div></div>
+  </section>
 
   <section class="today" id="today" aria-label="今日やること"></section>
 
@@ -368,12 +450,15 @@ details.finished ul.list{border:0;border-top:1px solid var(--line);border-radius
 (function(){
   var INBOX = "なんでも";
   var KEY = "yarukoto-v1";
-  var COLORS = ["#0f6e66","#c2570c","#5a5fc7","#b0306a","#6a7d1c","#2f7fb5","#8a5a2b","#7a4fb0"];
+  var COLORS = ["#c7000a","#ffc233","#9b6bff","#3ddc84","#35c6e8","#ff7ab6","#c9d1d3","#8ab4ff"];
   var state = null;
   var active = "all";
   var editCats = false;
   var doneOpen = false;
+  var saveTimer = null;
   var toastTimer = null;
+  var dbc = null;
+  var uid = null;
 
   function $(s){ return document.querySelector(s); }
   function esc(s){
@@ -432,6 +517,15 @@ details.finished ul.list{border:0;border-top:1px solid var(--line);border-radius
   function save(){
     state.updatedAt = Date.now();
     saveLocal();
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveDb, 400);
+  }
+  function saveDb(){
+    if(!dbc || !uid) return;
+    try{
+      var p = dbc.collection("data/users/"+uid).doc("todo").set(state);
+      if(p && p.catch) p.catch(function(){});
+    }catch(e){}
   }
   function toast(msg){
     var t = $("#toast");
@@ -538,12 +632,12 @@ details.finished ul.list{border:0;border-top:1px solid var(--line);border-radius
     var done = list.filter(function(t){ return t.done; }).length;
     var d = today0();
     var pct = list.length ? Math.round(done / list.length * 100) : 0;
-    $("#today").innerHTML = '<div class="todayhead"><div><h2>今日やること</h2><span class="tdate">'
+    $("#today").innerHTML = '<div class="todayhead"><div><h2>本日の任務</h2><span class="tdate">'
       + (d.getMonth()+1)+'/'+d.getDate()+'('+"日月火水木金土"[d.getDay()]+')</span></div>'
       + '<span class="prog">'+(list.length ? done+' / '+list.length+' 完了' : '')+'</span></div>'
       + (list.length ? '<div class="bar"><i style="width:'+pct+'%"></i></div>' : '')
       + '<ul class="list">' + (list.length ? list.map(function(t){ return taskHtml(t, true); }).join("")
-        : '<li class="empty">今日やることはありません。</li>') + '</ul>';
+        : '<li class="empty">本日の任務はありません。</li>') + '</ul>';
   }
   function renderRecurring(){
     var h = '<h2>毎週のくりかえし</h2>';
@@ -652,6 +746,47 @@ details.finished ul.list{border:0;border-top:1px solid var(--line);border-radius
     $("#finished").hidden = doneList.length === 0;
     $("#finished").open = doneOpen && doneList.length > 0;
   }
+
+  // clock
+  var SEGP = {
+    a:"11,8 16,3 44,3 49,8 44,13 16,13", d:"11,92 16,87 44,87 49,92 44,97 16,97", g:"11,50 16,45 44,45 49,50 44,55 16,55",
+    f:"8,11 13,16 13,44 8,47 3,44 3,16", b:"52,11 57,16 57,44 52,47 47,44 47,16",
+    e:"8,53 13,56 13,84 8,89 3,84 3,56", c:"52,53 57,56 57,84 52,89 47,84 47,56"
+  };
+  var SEGD = ["abcdef","bc","abdeg","abcdg","bcfg","acdfg","acdefg","abc","abcdefg","abcdfg"];
+  function lcd(str){
+    var x = 0, g = "";
+    str.split("").forEach(function(ch){
+      if(ch === ":"){
+        g += '<g transform="translate('+x+' 0)"><rect class="lp" x="4" y="24" width="12" height="12"/><rect class="lp" x="4" y="64" width="12" height="12"/></g>'; x += 20;
+      } else if(ch === "."){
+        g += '<g transform="translate('+x+' 0)"><rect class="lp" x="4" y="84" width="12" height="12"/></g>'; x += 20;
+      } else {
+        var on = SEGD[+ch];
+        g += '<g transform="translate('+x+' 0)">';
+        "abcdefg".split("").forEach(function(k){ g += '<polygon class="'+(on.indexOf(k) >= 0 ? "on" : "off")+'" points="'+SEGP[k]+'"/>'; });
+        g += '</g>'; x += 66;
+      }
+    });
+    return '<svg viewBox="0 0 '+(x - 6)+' 100" style="width:calc(var(--h)*'+((x - 6) / 100)+')" aria-hidden="true">' + g + '</svg>';
+  }
+  var WD_JA = "日月火水木金土";
+  var WD_EN = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+  var lastDay = "";
+  function two(n){ return (n < 10 ? "0" : "") + n; }
+  function tick(){
+    var d = new Date(), h = d.getHours(), m = d.getMinutes(), s = d.getSeconds();
+    $("#clkTime").innerHTML = lcd(two(h) + ":" + two(m));
+    $("#clkSec").innerHTML = lcd(two(s));
+    $("#clkDate").innerHTML = lcd(d.getFullYear() + "." + two(d.getMonth() + 1) + "." + two(d.getDate()));
+    $("#clkDay").innerHTML = WD_JA[d.getDay()] + "曜日<span>" + WD_EN[d.getDay()] + "</span>";
+    var ds = ymd(d);
+    if(lastDay && lastDay !== ds && state) render();
+    lastDay = ds;
+  }
+  tick();
+  setInterval(tick, 1000);
+  document.addEventListener("visibilitychange", function(){ if(!document.hidden) tick(); });
 
   // events
   $("#addForm").addEventListener("submit", function(e){
